@@ -1,0 +1,15 @@
+<h1>Best Books</h1>
+
+<% @books.each_with_index do |book, index| %>
+  <div class="card card-block">
+    <div class="row">
+      <div class="col-sm-2">
+        <%= image_tag(book["volumeInfo"]["imageLinks"]["smallThumbnail"], :alt => "rss feed") %>
+      </div>
+      <div class="col-sm-10">
+        <p class="card-title"><%= book["volumeInfo"]["title"] %></p>
+        <p class="card-text">NPS: <%= @nps_scores[index] %></p>
+      </div>
+    </div>
+  </div>
+<% end %>
