@@ -11,7 +11,10 @@ class BooksController < ApplicationController
 
     hydra = Typhoeus::Hydra.new
     responseBooks.each_with_index do |responseBook, index|
-      book = Book.new(responseBook["book_details"][0]["title"], responseBook["book_details"][0]["author"], responseBook["isbns"])
+      title = responseBook["book_details"][0]["title"]
+      author = responseBook["book_details"][0]["author"]
+      isbns = responseBook["isbns"]
+      book = Book.new(title, author, isbns)
 
       # Check if book has isbn
       if book.isbns.empty?
@@ -32,6 +35,8 @@ class BooksController < ApplicationController
 
           # Get data from
           data = symbolized_hash[:GoodreadsResponse]
+          book.img_url = data["book"]["image_url"]
+          book.small_img_url = data["book"]["small_image_url"]
           rating_dist = data["book"]["work"]["rating_dist"]
 
           split_rating = rating_dist.split('|')

@@ -4,7 +4,9 @@ class Book
     @title = title
     @author = author
     @isbns = isbns
+
     @img_url = ""
+    @small_img_url = ""
     @nps_score = nil
   end
 
@@ -26,6 +28,14 @@ class Book
 
   def img_url= img_url
     @img_url = img_url
+  end
+
+  def small_img_url
+    @small_img_url
+  end
+
+  def small_img_url= img_url
+    @small_img_url = img_url
   end
 
   def nps_score
