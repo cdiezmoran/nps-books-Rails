@@ -74,8 +74,11 @@ class BooksController < ApplicationController
       # Add each request to hydra queue
       hydra.queue(request)
     end
-    # Run all the requests asynchronousyly
+    # Run all the requests
     hydra.run
+
+    # Sort array
+    @books.sort! { |a,b| b.nps_score <=> a.nps_score }
   end
 
 end
