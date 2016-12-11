@@ -1,3 +1,46 @@
 // Place all the styles related to the books controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.book-grid {
+  background-color: rgb(250, 250, 250);
+  border-radius: 8px;
+  padding-top: 35px;
+}
+
+.grid-item {
+  height: 300px;
+  text-align: center;
+}
+
+.grid-item p {
+  margin: 0;
+  padding: 0;
+}
+
+.book-title {
+  color: #2196F3;
+  transition: color 0.25s ease-in-out;
+}
+
+.book-author {
+  color: #37474F;
+}
+
+.book-nps {
+  color: rgba(0, 0, 0, 0.4);
+  margin-top: 15px;
+  border-radius: 4px;
+}
+
+.book-cover {
+  height: 175px;
+  width: 112px;
+}
+
+.good-nps {
+  color: #00E676;
+}
+
+.bad-nps {
+  color: #FF5252;
+}
