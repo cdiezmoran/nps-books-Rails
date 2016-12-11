@@ -1,15 +1,26 @@
 class BooksController < ApplicationController
 
   def index
-    response = HTTParty.get('https://www.googleapis.com/books/v1/volumes?q=subject:mystery&printType=books&orderBy=relevance&key:AIzaSyAhhshz7DlcDYgVbDWLCrXZLfMxlVdMYYA')
+    response = HTTParty.get('https://api.nytimes.com/svc/books/v3/lists.json?api-key=ec2d52743558402883a87a233a9b1af7&list=combined-print-and-e-book-fiction&date=2016-12-18')
     body = JSON.parse(response.body)
 
-    @books = body["items"]
+    @books = body["results"]
     @nps_scores = Array.new
+    no_isbn_books = Array.new
 
     hydra = Typhoeus::Hydra.new
-    @books.each do |book|
-      request = Typhoeus::Request.new("https://www.goodreads.com/book/isbn/#{book["volumeInfo"]["industryIdentifiers"][0]["identifier"]}?key=Rf1LgjsOB2cf69K4gMbPkQ", followlocation: true)
+    @books.each_with_index do |book, index|
+      # Check if book has isbn
+      if book["isbns"].empty?
+          no_isbn_books << index
+          puts no_isbn_books
+        next
+      end
+
+      # Create a request for each book
+      request = Typhoeus::Request.new("https://www.goodreads.com/book/isbn/#{book["isbns"][0]["isbn13"].to_i}?key=Rf1LgjsOB2cf69K4gMbPkQ", followlocation: true)
+
+      # Handle the requests
       request.on_complete do |response|
         if response.success?
           # Create a hash from the xml data and then symbolize it

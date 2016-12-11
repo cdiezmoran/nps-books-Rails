@@ -4,10 +4,9 @@
   <div class="card card-block">
     <div class="row">
       <div class="col-sm-2">
-        <%= image_tag(book["volumeInfo"]["imageLinks"]["smallThumbnail"], :alt => "rss feed") %>
       </div>
       <div class="col-sm-10">
-        <p class="card-title"><%= book["volumeInfo"]["title"] %></p>
+        <p class="card-title"><%= book["book_details"][0]["title"].split.map(&:capitalize).join(' ') %></p>
         <p class="card-text">NPS: <%= @nps_scores[index] %></p>
       </div>
     </div>
