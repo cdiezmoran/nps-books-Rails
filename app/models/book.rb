@@ -1,10 +1,11 @@
 class Book
 
-  def initialize(title, author, isbns)
+  def initialize(title, author)
     @title = title
     @author = author
-    @isbns = isbns
 
+    @description = ""
+    @isbns = nil
     @img_url = ""
     @small_img_url = ""
     @nps_score = nil
@@ -18,8 +19,20 @@ class Book
     @author
   end
 
+  def description
+    @description
+  end
+
+  def description= description
+    @description = description
+  end
+
   def isbns
     @isbns
+  end
+
+  def isbns= isbns
+    @isbns = isbns
   end
 
   def img_url

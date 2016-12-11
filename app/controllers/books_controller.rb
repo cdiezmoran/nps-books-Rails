@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
 
   def index
-    response = HTTParty.get('https://api.nytimes.com/svc/books/v3/lists.json?api-key=ec2d52743558402883a87a233a9b1af7&list=combined-print-and-e-book-fiction&date=2016-12-18')
+    response = Typhoeus.get('https://api.nytimes.com/svc/books/v3/lists.json?api-key=ec2d52743558402883a87a233a9b1af7&list=combined-print-and-e-book-fiction&date=2016-12-18', followlocation: true)
     body = JSON.parse(response.body)
 
     responseBooks = body["results"]
@@ -13,8 +13,9 @@ class BooksController < ApplicationController
     responseBooks.each_with_index do |responseBook, index|
       title = responseBook["book_details"][0]["title"]
       author = responseBook["book_details"][0]["author"]
-      isbns = responseBook["isbns"]
-      book = Book.new(title, author, isbns)
+      book = Book.new(title, author)
+
+      book.isbns = responseBook["isbns"]
 
       # Check if book has isbn
       if book.isbns.empty?
@@ -79,6 +80,25 @@ class BooksController < ApplicationController
 
     # Sort array
     @books.sort! { |a,b| b.nps_score <=> a.nps_score }
+  end
+
+  def show
+    response = Typhoeus.get("https://www.goodreads.com/book/isbn/#{params[:isbn].to_i}?key=Rf1LgjsOB2cf69K4gMbPkQ", followlocation: true)
+    # Create a hash from the xml data and then symbolize it
+    hash = Hash.from_xml(response.body.gsub("\n", ""))
+    symbolized_hash = hash.symbolize_keys
+
+    # Get data from
+    bookData = symbolized_hash[:GoodreadsResponse]["book"]
+
+    title = bookData["title"]
+    author = bookData["authors"]["author"]["name"]
+    @book = Book.new(title, author)
+
+    @book.nps_score = params[:nps]
+    @book.description = bookData["description"]
+    @book.img_url = bookData["image_url"]
+    @book.small_img_url = bookData["small_image_url"]
   end
 
 end
