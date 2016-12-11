@@ -4,21 +4,24 @@ class BooksController < ApplicationController
     response = HTTParty.get('https://api.nytimes.com/svc/books/v3/lists.json?api-key=ec2d52743558402883a87a233a9b1af7&list=combined-print-and-e-book-fiction&date=2016-12-18')
     body = JSON.parse(response.body)
 
-    @books = body["results"]
-    @nps_scores = Array.new
+    responseBooks = body["results"]
+
+    @books = Array.new
     no_isbn_books = Array.new
 
     hydra = Typhoeus::Hydra.new
-    @books.each_with_index do |book, index|
+    responseBooks.each_with_index do |responseBook, index|
+      book = Book.new(responseBook["book_details"][0]["title"], responseBook["book_details"][0]["author"], responseBook["isbns"])
+
       # Check if book has isbn
-      if book["isbns"].empty?
+      if book.isbns.empty?
           no_isbn_books << index
           puts no_isbn_books
         next
       end
 
       # Create a request for each book
-      request = Typhoeus::Request.new("https://www.goodreads.com/book/isbn/#{book["isbns"][0]["isbn13"].to_i}?key=Rf1LgjsOB2cf69K4gMbPkQ", followlocation: true)
+      request = Typhoeus::Request.new("https://www.goodreads.com/book/isbn/#{book.isbns[0]["isbn13"].to_i}?key=Rf1LgjsOB2cf69K4gMbPkQ", followlocation: true)
 
       # Handle the requests
       request.on_complete do |response|
@@ -53,14 +56,15 @@ class BooksController < ApplicationController
 
             # Calculate nps score and append it
             nps_score = promoter_percentage - detractor_percentage
-            @nps_scores << nps_score
-          else
-            @nps_scores << "This book has no ratings."
-          end
+            book.nps_score = nps_score
 
+          else
+            book.nps_score = "This book has no ratings."
+          end
         else
-          @nps_scores << "Unable to get ratings :/"
+          book.nps_score = "Unable to get ratings :/"
         end
+        @books << book
       end
       # Add each request to hydra queue
       hydra.queue(request)
