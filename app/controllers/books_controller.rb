@@ -94,7 +94,7 @@ class BooksController < ApplicationController
     author = bookData["authors"]["author"]["name"]
     @book = Book.new(title, author)
 
-    @book.nps_score = params[:nps]
+    @book.nps_score = params[:nps].to_f
     @book.description = bookData["description"]
     @book.img_url = bookData["image_url"]
   end

@@ -4,12 +4,12 @@
   <div class="row">
     <% @books.each_with_index do |book, index| %>
       <div class="col-sm-4 grid-item">
-        <%= link_to books_show_path(book.isbns[0]["isbn13"], book.nps_score.round(2)), class: "book-link" do %>
+        <%= link_to books_show_path(book.isbns[0]["isbn13"], {:nps => book.nps_score.round(2)}), class: "book-link" do %>
         <%= image_tag(book.img_url, :alt => book.title, class: "book-cover") %>
         <div class="book-content">
           <p class="book-title"><%= book.title.split.map(&:capitalize).join(' ') %></p>
           <p class="book-author"><%= book.author.split.map(&:capitalize).join(' ') %></p>
-          <p class="book-nps">NPS: <span class="<%= book.nps_score >= 0 ? 'good-nps' : 'bad-nps' %>"><%= book.nps_score.round(2) %></span></p>
+          <p class="book-nps">NPS: <span class="<%= book.nps_color_class %>"><%= book.nps_score.round(2) %></span></p>
         </div>
         <% end %>
       </div>

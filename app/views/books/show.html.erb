@@ -1,5 +1,29 @@
-<h1><%= @book.title %></h1>
+<div class="row book-info">
+  <div class="col-md-2">
+    <%= image_tag(@book.img_url, :alt => @book.title, class: "book-cover-lg") %>
+  </div>
+  <div class="col-md-6">
+    <h1><%= @book.title %></h1>
+    <h3><%= @book.author %></h3>
+    <div class="book-details">
+      <h4>NPS</h4>
+      <h2><%= @book.nps_score %></h2>
+      <h3><span class="<%= @book.nps_color_class %>"><%= @book.nps_description_word %></span></h3>
+    </div>
+  </div>
+  <div class="col-md-4" style="text-align: center">
+    <img src="http://authoridentity.com/wp-content/uploads/2015/02/Amazon-preorder.png" alt="Amazon Order" class="buy-img">
+    <p>
+      or
+    </p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Google_Books_logo_2015.PNG" alt="google books order" class="buy-img">
+  </div>
+</div>
 
-<p>
-  <%= sanitize @book.description %>
-</p>
+<div class="row">
+  <div class="container">
+    <p>
+      <%= sanitize @book.description %>
+    </p>
+  </div>
+</div>
