@@ -9,13 +9,13 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-light bg-faded">
+    <nav class="navbar navbar-dark bg-white">
       <a class="navbar-brand" href="<%= root_url %>">Book Promoter</a>
-      <ul class="nav navbar-nav float-sm-right">
-        <li class="nav-item">
-          <a href="#">Login</a>
-        </li>
-      </ul>
+
+      <form class="form-inline float-xs-right">
+        <input class="form-control search-bar" type="text" placeholder="Search">
+        <button class="btn btn-nav-search" type="submit">Search</button>
+      </form>
     </nav>
     <div class="container">
       <p class="notice"><%= notice %></p>

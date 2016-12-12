@@ -37,7 +37,6 @@ class BooksController < ApplicationController
           # Get data from
           data = symbolized_hash[:GoodreadsResponse]
           book.img_url = data["book"]["image_url"]
-          book.small_img_url = data["book"]["small_image_url"]
           rating_dist = data["book"]["work"]["rating_dist"]
 
           split_rating = rating_dist.split('|')
@@ -98,7 +97,6 @@ class BooksController < ApplicationController
     @book.nps_score = params[:nps]
     @book.description = bookData["description"]
     @book.img_url = bookData["image_url"]
-    @book.small_img_url = bookData["small_image_url"]
   end
 
 end
