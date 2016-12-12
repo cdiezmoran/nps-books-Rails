@@ -13,10 +13,14 @@
   </div>
   <div class="col-md-4" style="text-align: center">
     <img src="http://authoridentity.com/wp-content/uploads/2015/02/Amazon-preorder.png" alt="Amazon Order" class="buy-img">
+    <% if !@book.google_buy_url.nil? %>
     <p>
       or
     </p>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Google_Books_logo_2015.PNG" alt="google books order" class="buy-img">
+      <%= link_to @book.google_buy_url do%>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Google_Books_logo_2015.PNG" alt="google books order" class="buy-img">
+      <% end %>
+    <% end %>
   </div>
 </div>
 

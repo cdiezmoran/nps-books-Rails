@@ -8,6 +8,7 @@ class Book
     @isbns = nil
     @img_url = ""
     @nps_score = 0
+    @google_buy_url = nil
   end
 
   def nps_color_class
@@ -76,6 +77,14 @@ class Book
 
   def nps_score= nps_score
     @nps_score = nps_score
+  end
+
+  def google_buy_url
+    @google_buy_url
+  end
+
+  def google_buy_url= google_buy_url
+    @google_buy_url = google_buy_url
   end
 
 end

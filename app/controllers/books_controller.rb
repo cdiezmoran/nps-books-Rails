@@ -82,21 +82,31 @@ class BooksController < ApplicationController
   end
 
   def show
-    response = Typhoeus.get("https://www.goodreads.com/book/isbn/#{params[:isbn].to_i}?key=Rf1LgjsOB2cf69K4gMbPkQ", followlocation: true)
+    response = Typhoeus.get("https://www.googleapis.com/books/v1/volumes?q=#{params[:isbn]}+isbn&key:AIzaSyAhhshz7DlcDYgVbDWLCrXZLfMxlVdMYYA", followlocation: true)
+
+    body = JSON.parse(response.body)
+
+    responseBooks = body["items"]
+    volumeInfo = responseBooks[0]["volumeInfo"]
+    saleInfo = responseBooks[0]["saleInfo"]
+
+    @book = Book.new(volumeInfo["title"], volumeInfo["authors"][0])
+    @book.nps_score = params[:nps].to_f
+    @book.img_url = volumeInfo["imageLinks"]["thumbnail"]
+
+    @book.google_buy_url = saleInfo["buyLink"]
+
+    goodreadsResponse = Typhoeus.get("https://www.goodreads.com/book/isbn/#{params[:isbn].to_i}?key=Rf1LgjsOB2cf69K4gMbPkQ", followlocation: true)
+
     # Create a hash from the xml data and then symbolize it
-    hash = Hash.from_xml(response.body.gsub("\n", ""))
+    hash = Hash.from_xml(goodreadsResponse.body.gsub("\n", ""))
     symbolized_hash = hash.symbolize_keys
 
     # Get data from
     bookData = symbolized_hash[:GoodreadsResponse]["book"]
-
-    title = bookData["title"]
-    author = bookData["authors"]["author"]["name"]
-    @book = Book.new(title, author)
-
-    @book.nps_score = params[:nps].to_f
     @book.description = bookData["description"]
-    @book.img_url = bookData["image_url"]
+
+
   end
 
 end
