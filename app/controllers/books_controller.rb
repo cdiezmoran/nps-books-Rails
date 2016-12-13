@@ -52,6 +52,8 @@ class BooksController < ApplicationController
     bookData = symbolized_hash[:GoodreadsResponse]["book"]
     @book.description = bookData["description"]
 
+    byebug
+
   end
 
 end
@@ -143,9 +145,10 @@ def get_sorted_books(responseBooks, responseType)
           book.nps_score = nps_score
 
         else
-          book.nps_score = "This book has no ratings."
+          book.nps_score = 0
         end
       else
+        next
         book.nps_score = "Unable to get ratings :/"
       end
       books << book

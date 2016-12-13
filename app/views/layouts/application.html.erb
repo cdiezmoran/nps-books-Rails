@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>NpsBooks</title>
+    <title>Book Promoter</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -21,6 +21,11 @@
     </nav>
     <div class="container">
       <%= yield %>
+    </div>
+    <div class="footer">
+      <p>
+        Built with <%= icon('heart') %> by Carlos Diez
+      </p>
     </div>
   </body>
 </html>
