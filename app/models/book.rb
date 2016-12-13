@@ -87,4 +87,28 @@ class Book
     @google_buy_url = google_buy_url
   end
 
+  def publisher
+    @publisher
+  end
+
+  def publisher= publisher
+    @publisher = publisher
+  end
+
+  def page_count
+    @page_count
+  end
+
+  def page_count= page_count
+    @page_count = page_count
+  end
+
+  def categories
+    @categories
+  end
+
+  def categories= categories
+    @categories = categories
+  end
+
 end

@@ -36,6 +36,10 @@ class BooksController < ApplicationController
     @book.nps_score = params[:nps].to_f
     @book.img_url = volumeInfo["imageLinks"]["thumbnail"]
 
+    @book.publisher = volumeInfo["publisher"]
+    @book.page_count = volumeInfo["pageCount"]
+    @book.categories = volumeInfo["categories"]
+
     @book.google_buy_url = saleInfo["buyLink"]
 
     goodreadsResponse = Typhoeus.get("https://www.goodreads.com/book/isbn/#{params[:isbn].to_i}?key=Rf1LgjsOB2cf69K4gMbPkQ", followlocation: true)
@@ -47,7 +51,6 @@ class BooksController < ApplicationController
     # Get data from
     bookData = symbolized_hash[:GoodreadsResponse]["book"]
     @book.description = bookData["description"]
-
 
   end
 

@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-dark bg-blue">
+    <nav class="navbar navbar-light bg-white">
       <a class="navbar-brand" href="<%= root_url %>">Book Promoter</a>
 
       <%= form_tag books_path, :method => 'get', class: "form-inline float-xs-right" do %>
@@ -20,8 +20,6 @@
       <% end %>
     </nav>
     <div class="container">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
       <%= yield %>
     </div>
   </body>

@@ -10,14 +10,17 @@ body {
 }
 
 .book-grid {
+  margin-top: 35px;
   background-color: #fff;
   border-radius: 8px;
   padding-top: 35px;
+  border: 1px solid rgba(200, 200, 200, 0.4);
+  text-align: center;
 }
 
-.bg-blue {
-  background-color: #448AFF;
-  color: #fff;
+.bg-white {
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
 }
 
 .btn-nav-search {
@@ -129,4 +132,51 @@ body {
 
 .awful-nps {
   color: #D50000;
+}
+
+.vertical-divider {
+  width: 0.5px;
+  background-color: rgba(200, 200, 200, 0.4);
+}
+
+.horizontal-divider {
+  width: 100%;
+  background-color: rgba(200, 200, 200, 0.4);
+  height: 0.5px;
+  margin-bottom: 10px;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.show-page {
+  background-color: #fff;
+  margin-top: 25px;
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid rgba(200, 200, 200, 0.4)
+}
+
+.description {
+  margin-top: 15px;
+}
+
+.center-divider {
+  margin-bottom: 35px;
+  margin-top: 15px;
+  width: 8%;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.center-divider.blue {
+  background-color: #00B0FF;
+}
+
+.center-divider.green {
+  background-color: #00E676;
 }
