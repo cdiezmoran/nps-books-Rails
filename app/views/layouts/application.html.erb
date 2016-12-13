@@ -12,10 +12,12 @@
     <nav class="navbar navbar-dark bg-blue">
       <a class="navbar-brand" href="<%= root_url %>">Book Promoter</a>
 
-      <form class="form-inline float-xs-right">
-        <input class="form-control search-bar" type="text" placeholder="Search">
-        <button class="btn btn-nav-search" type="submit">Search</button>
-      </form>
+      <%= form_tag books_path, :method => 'get', class: "form-inline float-xs-right" do %>
+        <p style="margin-bottom: 0">
+          <%= text_field_tag :search, params[:search], class: "form-control search-bar", placeholder: "Search" %>
+          <%= submit_tag "Search", :name => nil, class: "btn btn-nav-search" %>
+        </p>
+      <% end %>
     </nav>
     <div class="container">
       <p class="notice"><%= notice %></p>

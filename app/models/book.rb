@@ -5,7 +5,7 @@ class Book
     @author = author
 
     @description = ""
-    @isbns = nil
+    @isbn = nil
     @img_url = ""
     @nps_score = 0
     @google_buy_url = nil
@@ -55,12 +55,12 @@ class Book
     @description = description
   end
 
-  def isbns
-    @isbns
+  def isbn
+    @isbn
   end
 
-  def isbns= isbns
-    @isbns = isbns
+  def isbn= isbn
+    @isbn = isbn
   end
 
   def img_url
