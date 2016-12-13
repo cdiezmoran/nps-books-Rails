@@ -181,10 +181,33 @@ body {
   background-color: #00E676;
 }
 
-.footer {
-  height: 100vh;
-  margin-top: 35px;
+.footer {
+  height: 50vh;
+  background-color: #222;
+  color: white;
   text-align: center;
-  background-color: #333;
-  color: #fff;
+  margin-top: 35px;
+  padding-top: 25px;
+}
+
+.gr-logo {
+  width: 320px;
+  height: 135px;
+}
+
+.gb-logo {
+  width: 320px;
+  height: 135px;
+}
+
+@keyframes heartcolor {
+  0% {color: #FF8A80}
+  50% {color: #FF1744}
+  100% {color: #FF8A80}
+}
+
+.red-heart {
+  color: #FF8A80;
+  -webkit-animation: heartcolor 6s infinite; /* Safari 4.0 - 8.0 */
+  animation: heartcolor 6s infinite;
 }

@@ -52,8 +52,6 @@ class BooksController < ApplicationController
     bookData = symbolized_hash[:GoodreadsResponse]["book"]
     @book.description = bookData["description"]
 
-    byebug
-
   end
 
 end
