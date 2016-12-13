@@ -1,4 +1,8 @@
-<h1 style="margin-bottom: 35px;">Best Sellers</h1>
+<% if @responseType == "nyTimes" %>
+  <h1 style="margin-bottom: 35px;">Best Sellers</h1>
+<% elsif @responseType == "google" %>
+  <h1 style="margin-bottom: 35px;">Search Results</h1>
+<% end %>
 
 <div class="container book-grid">
   <div class="row">

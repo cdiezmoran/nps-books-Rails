@@ -8,14 +8,18 @@ class BooksController < ApplicationController
 
       responseBooks = body["items"]
 
-      @books = get_sorted_books(responseBooks, "google")
+      @responseType = "google"
+
+      @books = get_sorted_books(responseBooks, @responseType)
     else
       response = Typhoeus.get('https://api.nytimes.com/svc/books/v3/lists.json?api-key=ec2d52743558402883a87a233a9b1af7&list=combined-print-and-e-book-fiction&date=2016-12-18', followlocation: true)
       body = JSON.parse(response.body)
 
       responseBooks = body["results"]
 
-      @books = get_sorted_books(responseBooks, "nyTimes")
+      @responseType = "nyTimes"
+
+      @books = get_sorted_books(responseBooks, @responseType)
     end
   end
 
@@ -68,15 +72,20 @@ def get_sorted_books(responseBooks, responseType)
       queryISBN = isbns[0]["isbn13"].to_i
     elsif responseType == "google"
       title = responseBook["volumeInfo"]["title"]
-      author = responseBook["volumeInfo"]["authors"][0]
+      author = responseBook["volumeInfo"]["authors"].nil? ? "" : responseBook["volumeInfo"]["authors"][0]
       isbns = responseBook["volumeInfo"]["industryIdentifiers"]
 
-      isbns.each do |isbn|
-        if isbn["type"] == "ISBN_13"
-          queryISBN = isbn["identifier"]
+      if !isbns.nil?
+        isbns.each do |isbn|
+          if isbn["type"] == "ISBN_13"
+            queryISBN = isbn["identifier"]
+          end
         end
       end
-      if queryISBN == 0
+      if queryISBN == 0 && !isbns.nil?
+        if isbns[0]["type"] == "OTHER"
+          next
+        end
         queryISBN = isbns[0]["identifier"]
       end
     end
@@ -85,7 +94,7 @@ def get_sorted_books(responseBooks, responseType)
     book.isbn = queryISBN
 
     # Check if book has isbn
-    if isbns.empty?
+    if isbns.nil? || isbns.empty?
         no_isbn_books << index
         puts no_isbn_books
       next
