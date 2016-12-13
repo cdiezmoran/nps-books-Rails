@@ -25,17 +25,13 @@ body {
 
 .btn-nav-search {
   background-color: transparent;
-  border: 1px solid #fff;
-  color: #fff;
-}
-
-.search-bar:focus {
-  border-color: #ddd;
+  border: 1px solid #00B0FF;
+  color: #00B0FF;
 }
 
 .btn-nav-search:hover {
-  background-color: #fff;
-  color: #222
+  background-color: #00B0FF;
+  color: #fff
 }
 
 .grid-item {
