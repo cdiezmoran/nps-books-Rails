@@ -1,6 +1,17 @@
 
 
 <div class="container book-grid">
+  <div class="date-picker" style="text-align: right">
+    <%= link_to books_path({ :date => get_prev_date(@date) }) do %>
+      <i class="fa fa-chevron-left" style="margin-right: 5px;"></i>
+    <% end %>
+    <span><%= @date.strftime('%Y-%m-%d') %></span>
+    <% if @date != Date.today.end_of_week(:monday) %>
+      <%= link_to books_path({ :date => get_next_date(@date) }) do %>
+        <i class="fa fa-chevron-right"style="margin-left: 5px;"></i>
+      <% end %>
+    <% end %>
+  </div>
   <% if @responseType == "nyTimes" %>
     <h1>Best Sellers</h1>
     <div class="center-divider blue"></div>
@@ -11,12 +22,12 @@
   <div class="row">
     <% @books.each_with_index do |book, index| %>
       <div class="col-sm-4 grid-item">
-        <%= link_to books_show_path(book.isbn, {:title => book.title.split.map(&:capitalize).join(' '), :author => book.author, :nps => book.nps_score.round(2)}), class: "book-link" do %>
+        <%= link_to books_show_path(book.isbn, {:title => book.title.split.map(&:capitalize).join(' '), :author => book.author, :nps => book.nps_score.round(1)}), class: "book-link" do %>
         <%= image_tag(book.img_url, :alt => book.title, class: "book-cover") %>
         <div class="book-content">
           <p class="book-title"><%= book.title.split.map(&:capitalize).join(' ') %></p>
           <p class="book-author"><%= book.author %></p>
-          <p class="book-nps">NPS: <span class="<%= book.nps_color_class %>"><%= book.nps_score.round(2) %></span></p>
+          <p class="book-nps">Score: <span class="<%= book.nps_color_class %>"><%= book.nps_score.round(1) %></span></p>
         </div>
         <% end %>
       </div>

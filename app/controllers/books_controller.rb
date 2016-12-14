@@ -12,7 +12,14 @@ class BooksController < ApplicationController
 
       @books = get_sorted_books(responseBooks, @responseType)
     else
-      response = Typhoeus.get('https://api.nytimes.com/svc/books/v3/lists.json?api-key=ec2d52743558402883a87a233a9b1af7&list=combined-print-and-e-book-fiction&date=2016-12-18', followlocation: true)
+      @date = Date.today.end_of_week(:monday)
+      queryDate = @date.strftime("%Y-%m-%d")
+      if params[:date]
+        queryDate = params[:date]
+        @date = params[:date].to_datetime
+      end
+
+      response = Typhoeus.get("https://api.nytimes.com/svc/books/v3/lists.json?api-key=ec2d52743558402883a87a233a9b1af7&list=combined-print-and-e-book-fiction&date=#{queryDate}", followlocation: true)
       body = JSON.parse(response.body)
 
       responseBooks = body["results"]
@@ -72,6 +79,7 @@ def get_sorted_books(responseBooks, responseType)
       title = responseBook["book_details"][0]["title"]
       author = responseBook["book_details"][0]["author"]
       isbns = responseBook["isbns"]
+      next if isbns.empty?
       queryISBN = isbns[0]["isbn13"].to_i
     elsif responseType == "google"
       title = responseBook["volumeInfo"]["title"]
