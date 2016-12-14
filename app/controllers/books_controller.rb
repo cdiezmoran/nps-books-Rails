@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
 
   def index
+    @date = Date.today.end_of_week(:monday)
     if params[:search]
       formatted_search = params[:search].downcase.split(' ').join('+')
       response = Typhoeus.get("https://www.googleapis.com/books/v1/volumes?q=#{formatted_search}&key:AIzaSyAhhshz7DlcDYgVbDWLCrXZLfMxlVdMYYA", followlocation: true)
@@ -12,7 +13,6 @@ class BooksController < ApplicationController
 
       @books = get_sorted_books(responseBooks, @responseType)
     else
-      @date = Date.today.end_of_week(:monday)
       queryDate = @date.strftime("%Y-%m-%d")
       if params[:date]
         queryDate = params[:date]
