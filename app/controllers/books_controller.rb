@@ -32,7 +32,16 @@ class BooksController < ApplicationController
     volumeInfo = responseBooks[0]["volumeInfo"]
     saleInfo = responseBooks[0]["saleInfo"]
 
-    @book = Book.new(volumeInfo["title"], volumeInfo["authors"][0])
+    goodreadsResponse = Typhoeus.get("https://www.goodreads.com/book/isbn/#{params[:isbn].to_i}?key=Rf1LgjsOB2cf69K4gMbPkQ", followlocation: true)
+
+    # Create a hash from the xml data and then symbolize it
+    hash = Hash.from_xml(goodreadsResponse.body.gsub("\n", ""))
+    symbolized_hash = hash.symbolize_keys
+
+    # Get data from hash
+    bookData = symbolized_hash[:GoodreadsResponse]["book"]
+
+    @book = Book.new(params[:title], params[:author])
     @book.nps_score = params[:nps].to_f
     @book.img_url = volumeInfo["imageLinks"]["thumbnail"]
 
@@ -42,14 +51,6 @@ class BooksController < ApplicationController
 
     @book.google_buy_url = saleInfo["buyLink"]
 
-    goodreadsResponse = Typhoeus.get("https://www.goodreads.com/book/isbn/#{params[:isbn].to_i}?key=Rf1LgjsOB2cf69K4gMbPkQ", followlocation: true)
-
-    # Create a hash from the xml data and then symbolize it
-    hash = Hash.from_xml(goodreadsResponse.body.gsub("\n", ""))
-    symbolized_hash = hash.symbolize_keys
-
-    # Get data from
-    bookData = symbolized_hash[:GoodreadsResponse]["book"]
     @book.description = bookData["description"]
 
   end
@@ -59,7 +60,6 @@ end
 private
 def get_sorted_books(responseBooks, responseType)
   books = Array.new
-  no_isbn_books = Array.new
 
   hydra = Typhoeus::Hydra.new
   responseBooks.each_with_index do |responseBook, index|
@@ -86,7 +86,7 @@ def get_sorted_books(responseBooks, responseType)
         end
       end
       if queryISBN == 0 && !isbns.nil?
-        if isbns[0]["type"] == "OTHER"
+        if isbns[0]["type"] != "ISBN_10"
           next
         end
         queryISBN = isbns[0]["identifier"]
@@ -95,13 +95,6 @@ def get_sorted_books(responseBooks, responseType)
 
     book = Book.new(title, author)
     book.isbn = queryISBN
-
-    # Check if book has isbn
-    if isbns.nil? || isbns.empty?
-        no_isbn_books << index
-        puts no_isbn_books
-      next
-    end
 
     # Create a request for each book
     request = Typhoeus::Request.new("https://www.goodreads.com/book/isbn/#{book.isbn}?key=Rf1LgjsOB2cf69K4gMbPkQ", followlocation: true)
@@ -147,7 +140,6 @@ def get_sorted_books(responseBooks, responseType)
         end
       else
         next
-        book.nps_score = "Unable to get ratings :/"
       end
       books << book
     end
