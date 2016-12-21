@@ -14,14 +14,6 @@
     </div>
     <div class="col-md-4" style="text-align: center">
       <img src="http://authoridentity.com/wp-content/uploads/2015/02/Amazon-preorder.png" alt="Amazon Order" class="buy-img">
-      <% if !@book.google_buy_url.nil? %>
-      <p>
-        or
-      </p>
-        <%= link_to @book.google_buy_url do%>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Google_Books_logo_2015.PNG" alt="google books order" class="buy-img">
-        <% end %>
-      <% end %>
     </div>
   </div>
   <div class="horizontal-divider"></div>
@@ -41,6 +33,9 @@
         </p>
         <p>
           <span>Pages: </span><%= @book.page_count %>
+        </p>
+        <p>
+          <span>Categories: <span><%= get_categories_string(@book.categories) %></span></span>
         </p>
       </div>
     </div>

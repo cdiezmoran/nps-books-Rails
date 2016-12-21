@@ -79,14 +79,6 @@ class Book
     @nps_score = nps_score
   end
 
-  def google_buy_url
-    @google_buy_url
-  end
-
-  def google_buy_url= google_buy_url
-    @google_buy_url = google_buy_url
-  end
-
   def publisher
     @publisher
   end

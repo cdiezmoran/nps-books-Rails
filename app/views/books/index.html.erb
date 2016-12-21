@@ -19,18 +19,22 @@
     <h1>Search Results</h1>
     <div class="center-divider green"></div>
   <% end %>
-  <div class="row">
-    <% @books.each_with_index do |book, index| %>
-      <div class="col-sm-4 grid-item">
-        <%= link_to books_show_path(book.isbn, {:title => book.title.split.map(&:capitalize).join(' '), :author => book.author, :nps => book.nps_score.round(1)}), class: "book-link" do %>
+
+  <% @books.each_with_index do |book, index| %>
+    <div class="row row-item">
+      <%= link_to books_show_path(book.isbn, {:title => book.title.split.map(&:capitalize).join(' '), :author => book.author, :nps => book.nps_score.round(1)}), class: "book-link" do %>
+      <span class="nps-score-holder <%= book.nps_color_class %> bg">
+
+      </span>
+      <span style="float: left;">
         <%= image_tag(book.img_url, :alt => book.title, class: "book-cover") %>
-        <div class="book-content">
-          <p class="book-title"><%= book.title.split.map(&:capitalize).join(' ') %></p>
-          <p class="book-author"><%= book.author %></p>
-          <p class="book-nps">Score: <span class="<%= book.nps_color_class %>"><%= book.nps_score.round(1) %></span></p>
-        </div>
-        <% end %>
+      </span>
+      <div class="book-content">
+        <p>
+          book title
+        </p>
       </div>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>

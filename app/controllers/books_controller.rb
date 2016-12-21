@@ -55,9 +55,6 @@ class BooksController < ApplicationController
     @book.publisher = volumeInfo["publisher"]
     @book.page_count = volumeInfo["pageCount"]
     @book.categories = volumeInfo["categories"]
-
-    @book.google_buy_url = saleInfo["buyLink"]
-
     @book.description = bookData["description"]
 
   end
