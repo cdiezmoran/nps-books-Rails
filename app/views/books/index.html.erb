@@ -5,7 +5,7 @@
     <%= link_to books_path({ :date => get_prev_date(@date) }) do %>
       <i class="fa fa-chevron-left" style="margin-right: 5px;"></i>
     <% end %>
-    <span><%= @date.strftime('%Y-%m-%d') %></span>
+    <span><%= @date.strftime('%b %-d, %Y') %></span>
     <% if @date != Date.today.end_of_week(:monday) %>
       <%= link_to books_path({ :date => get_next_date(@date) }) do %>
         <i class="fa fa-chevron-right"style="margin-left: 5px;"></i>
@@ -23,18 +23,28 @@
   <% @books.each_with_index do |book, index| %>
     <div class="row row-item">
       <%= link_to books_show_path(book.isbn, {:title => book.title.split.map(&:capitalize).join(' '), :author => book.author, :nps => book.nps_score.round(1)}), class: "book-link" do %>
-      <span class="nps-score-holder <%= book.nps_color_class %> bg">
-
-      </span>
-      <span style="float: left;">
+      <div class="nps-score-holder <%= book.nps_color_class %> bg">
+        <%= book.nps_score.round(1) %>
+      </div>
+      <div style="float: left;">
         <%= image_tag(book.img_url, :alt => book.title, class: "book-cover") %>
-      </span>
+      </div>
       <div class="book-content">
+        <h3 class="book-title">
+          <%= book.title.split.map(&:capitalize).join(' ') %>
+        </h3>
         <p>
-          book title
+          by <%= book.author %>
+        </p>
+        <p class="book-review-count">
+          Based on reviews by <%= book.total_reviews %> <i class="fa fa-users"></i>
         </p>
       </div>
       <% end %>
+      <img src="http://authoridentity.com/wp-content/uploads/2015/02/Amazon-preorder.png" alt="Amazon Order" class="buy-img-index">
     </div>
+    <% if index != @books.count - 1 %>
+      <div class="horizontal-divider"></div>
+    <% end %>
   <% end %>
 </div>

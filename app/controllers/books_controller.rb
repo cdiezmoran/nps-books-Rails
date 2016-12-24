@@ -138,6 +138,7 @@ def get_sorted_books(responseBooks, responseType)
 
           # Calculate nps score and append it
           nps_score = promoter_percentage - detractor_percentage
+          book.total_reviews = total_count
           book.nps_score = nps_score
 
         else

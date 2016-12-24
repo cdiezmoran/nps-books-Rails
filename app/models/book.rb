@@ -9,17 +9,20 @@ class Book
     @img_url = ""
     @nps_score = 0
     @google_buy_url = nil
+    @total_reviews = 0
   end
 
   def nps_color_class
-    if @nps_score >= -5 and @nps_score <= 5
-      return 'regular-nps'
-    elsif @nps_score > 5 and @nps_score <= 25
+    if @nps_score >= 0 and @nps_score <= 10
       return 'good-nps'
-    elsif @nps_score > 25
+    elsif @nps_score > 10 and @nps_score <= 35
       return 'great-nps'
-    elsif @nps_score < -5 and @nps_score >= -25
+    elsif @nps_score > 35
+      return 'amazing-nps'
+    elsif @nps_score < 0 and @nps_score >= -10
       return 'bad-nps'
+    elsif @nps_score < -10 and @nps_score >= -35
+      return 'really-bad-nps'
     else
       return 'awful-nps'
     end
@@ -101,6 +104,14 @@ class Book
 
   def categories= categories
     @categories = categories
+  end
+
+  def total_reviews
+    @total_reviews
+  end
+
+  def total_reviews= total_reviews
+    @total_reviews = total_reviews
   end
 
 end
